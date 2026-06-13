@@ -91,13 +91,13 @@ contract HyperionEngine {
     function getPositionDetails(address user, uint256 marketId) 
         external 
         view 
-        returns (uint256 margin, uint256 size, uint256 entryPrice, uint256 timestamp, bool isLong) 
+        returns (uint256 margin, uint256 size, uint256 entryPrice, uint256 posTimestamp, bool isLong) 
     {
         uint256 packed = s_positions[user][marketId];
         
         assembly {
             isLong := and(packed, MASK_IS_LONG)
-            timestamp := and(shr(SHIFT_TIMESTAMP, packed), MASK_TIMESTAMP)
+            posTimestamp := and(shr(SHIFT_TIMESTAMP, packed), MASK_TIMESTAMP)
             entryPrice := and(shr(SHIFT_PRICE, packed), MASK_PRICE)
             size := and(shr(SHIFT_SIZE, packed), MASK_SIZE)
             margin := shr(SHIFT_MARGIN, packed)
